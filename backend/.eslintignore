@@ -1,0 +1,2 @@
+# stops warnings to make the file readable without needing to format it
+/src/generated
