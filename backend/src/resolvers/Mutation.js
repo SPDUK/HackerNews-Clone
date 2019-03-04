@@ -40,6 +40,25 @@ const Mutations = {
       postedBy: { connect: { id: userId } },
     });
   },
+  async vote(parent, args, context, info) {
+    const userId = getUserId(context);
+
+    // The $exists function takes a where filter object that allows to specify certain conditions
+    // about elements of that type. Only if the condition applies to at least one element in the
+    // database, the $exists function returns true
+    const linkExists = await context.prisma.$exists.vote({
+      user: { id: userId },
+      link: { id: args.linkId },
+    });
+    if (linkExists) {
+      throw new Error(`Already voted for link: ${args.linkId}`);
+    }
+
+    return context.prisma.createVote({
+      user: { connect: { id: userId } },
+      link: { connect: { id: args.linkId } },
+    });
+  },
 };
 
 module.exports = Mutations;
