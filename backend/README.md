@@ -15,4 +15,5 @@ Change the secrets in `variables.env` to valid information.
 After changing the `datamodel.prisma` run `yarn deploy` which will update the generated schema in `src/generated` using variables.env settings.
 
 Run the server `yarn start`
+
 Run the server in dev mode with `yarn dev`, which will watch .js and .graphql files for changes
