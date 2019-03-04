@@ -2,11 +2,16 @@
 // Please don't change this file manually but run `prisma generate` to update it.
 // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-import { DocumentNode } from 'graphql';
-import { makePrismaClientClass, BaseClientOptions, Model } from 'prisma-client-lib';
-import { typeDefs } from './prisma-schema';
+import { DocumentNode } from "graphql";
+import {
+  makePrismaClientClass,
+  BaseClientOptions,
+  Model
+} from "prisma-client-lib";
+import { typeDefs } from "./prisma-schema";
 
-export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
+  U[keyof U];
 
 export interface Exists {
   link: (where?: LinkWhereInput) => Promise<boolean>;
@@ -23,50 +28,61 @@ export interface Fragmentable {
 
 export interface Prisma {
   $exists: Exists;
-  $graphql: <T = any>(query: string, variables?: { [key: string]: any }) => Promise<T>;
+  $graphql: <T = any>(
+    query: string,
+    variables?: { [key: string]: any }
+  ) => Promise<T>;
 
   /**
    * Queries
    */
 
   link: (where: LinkWhereUniqueInput) => LinkPromise;
-  links: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Link>;
-  linksConnection: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => LinkConnectionPromise;
+  links: (
+    args?: {
+      where?: LinkWhereInput;
+      orderBy?: LinkOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Link>;
+  linksConnection: (
+    args?: {
+      where?: LinkWhereInput;
+      orderBy?: LinkOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => LinkConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
-  users: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<User>;
-  usersConnection: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => UserConnectionPromise;
+  users: (
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<User>;
+  usersConnection: (
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => UserConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -74,29 +90,35 @@ export interface Prisma {
    */
 
   createLink: (data: LinkCreateInput) => LinkPromise;
-  updateLink: (args: { data: LinkUpdateInput; where: LinkWhereUniqueInput }) => LinkPromise;
-  updateManyLinks: (args: {
-    data: LinkUpdateManyMutationInput;
-    where?: LinkWhereInput;
-  }) => BatchPayloadPromise;
-  upsertLink: (args: {
-    where: LinkWhereUniqueInput;
-    create: LinkCreateInput;
-    update: LinkUpdateInput;
-  }) => LinkPromise;
+  updateLink: (
+    args: { data: LinkUpdateInput; where: LinkWhereUniqueInput }
+  ) => LinkPromise;
+  updateManyLinks: (
+    args: { data: LinkUpdateManyMutationInput; where?: LinkWhereInput }
+  ) => BatchPayloadPromise;
+  upsertLink: (
+    args: {
+      where: LinkWhereUniqueInput;
+      create: LinkCreateInput;
+      update: LinkUpdateInput;
+    }
+  ) => LinkPromise;
   deleteLink: (where: LinkWhereUniqueInput) => LinkPromise;
   deleteManyLinks: (where?: LinkWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
-  updateUser: (args: { data: UserUpdateInput; where: UserWhereUniqueInput }) => UserPromise;
-  updateManyUsers: (args: {
-    data: UserUpdateManyMutationInput;
-    where?: UserWhereInput;
-  }) => BatchPayloadPromise;
-  upsertUser: (args: {
-    where: UserWhereUniqueInput;
-    create: UserCreateInput;
-    update: UserUpdateInput;
-  }) => UserPromise;
+  updateUser: (
+    args: { data: UserUpdateInput; where: UserWhereUniqueInput }
+  ) => UserPromise;
+  updateManyUsers: (
+    args: { data: UserUpdateManyMutationInput; where?: UserWhereInput }
+  ) => BatchPayloadPromise;
+  upsertUser: (
+    args: {
+      where: UserWhereUniqueInput;
+      create: UserCreateInput;
+      update: UserUpdateInput;
+    }
+  ) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
 
@@ -108,8 +130,12 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  link: (where?: LinkSubscriptionWhereInput) => LinkSubscriptionPayloadSubscription;
-  user: (where?: UserSubscriptionWhereInput) => UserSubscriptionPayloadSubscription;
+  link: (
+    where?: LinkSubscriptionWhereInput
+  ) => LinkSubscriptionPayloadSubscription;
+  user: (
+    where?: UserSubscriptionWhereInput
+  ) => UserSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -121,32 +147,32 @@ export interface ClientConstructor<T> {
  */
 
 export type LinkOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'description_ASC'
-  | 'description_DESC'
-  | 'url_ASC'
-  | 'url_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC';
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "url_ASC"
+  | "url_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type UserOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
-  | 'email_ASC'
-  | 'email_DESC'
-  | 'password_ASC'
-  | 'password_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC';
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
-export type MutationType = 'CREATED' | 'UPDATED' | 'DELETED';
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type LinkWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -364,7 +390,9 @@ export interface LinkUpdateManyWithoutPostedByInput {
     | LinkUpsertWithWhereUniqueWithoutPostedByInput[]
     | LinkUpsertWithWhereUniqueWithoutPostedByInput;
   deleteMany?: LinkScalarWhereInput[] | LinkScalarWhereInput;
-  updateMany?: LinkUpdateManyWithWhereNestedInput[] | LinkUpdateManyWithWhereNestedInput;
+  updateMany?:
+    | LinkUpdateManyWithWhereNestedInput[]
+    | LinkUpdateManyWithWhereNestedInput;
 }
 
 export interface LinkUpdateWithWhereUniqueWithoutPostedByInput {
@@ -496,7 +524,9 @@ export interface LinkPromise extends Promise<Link>, Fragmentable {
   postedBy: <T = UserPromise>() => T;
 }
 
-export interface LinkSubscription extends Promise<AsyncIterator<Link>>, Fragmentable {
+export interface LinkSubscription
+  extends Promise<AsyncIterator<Link>>,
+    Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
@@ -516,31 +546,37 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
-  links: <T = FragmentableArray<Link>>(args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  links: <T = FragmentableArray<Link>>(
+    args?: {
+      where?: LinkWhereInput;
+      orderBy?: LinkOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
-export interface UserSubscription extends Promise<AsyncIterator<User>>, Fragmentable {
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
-  links: <T = Promise<AsyncIterator<LinkSubscription>>>(args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  links: <T = Promise<AsyncIterator<LinkSubscription>>>(
+    args?: {
+      where?: LinkWhereInput;
+      orderBy?: LinkOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface LinkConnection {
@@ -548,7 +584,9 @@ export interface LinkConnection {
   edges: LinkEdge[];
 }
 
-export interface LinkConnectionPromise extends Promise<LinkConnection>, Fragmentable {
+export interface LinkConnectionPromise
+  extends Promise<LinkConnection>,
+    Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
   edges: <T = FragmentableArray<LinkEdge>>() => T;
   aggregate: <T = AggregateLinkPromise>() => T;
@@ -576,7 +614,9 @@ export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
   endCursor: () => Promise<String>;
 }
 
-export interface PageInfoSubscription extends Promise<AsyncIterator<PageInfo>>, Fragmentable {
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
   hasNextPage: () => Promise<AsyncIterator<Boolean>>;
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
@@ -593,7 +633,9 @@ export interface LinkEdgePromise extends Promise<LinkEdge>, Fragmentable {
   cursor: () => Promise<String>;
 }
 
-export interface LinkEdgeSubscription extends Promise<AsyncIterator<LinkEdge>>, Fragmentable {
+export interface LinkEdgeSubscription
+  extends Promise<AsyncIterator<LinkEdge>>,
+    Fragmentable {
   node: <T = LinkSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
@@ -602,7 +644,9 @@ export interface AggregateLink {
   count: Int;
 }
 
-export interface AggregateLinkPromise extends Promise<AggregateLink>, Fragmentable {
+export interface AggregateLinkPromise
+  extends Promise<AggregateLink>,
+    Fragmentable {
   count: () => Promise<Int>;
 }
 
@@ -617,7 +661,9 @@ export interface UserConnection {
   edges: UserEdge[];
 }
 
-export interface UserConnectionPromise extends Promise<UserConnection>, Fragmentable {
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
   edges: <T = FragmentableArray<UserEdge>>() => T;
   aggregate: <T = AggregateUserPromise>() => T;
@@ -641,7 +687,9 @@ export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription extends Promise<AsyncIterator<UserEdge>>, Fragmentable {
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
   node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
@@ -650,7 +698,9 @@ export interface AggregateUser {
   count: Int;
 }
 
-export interface AggregateUserPromise extends Promise<AggregateUser>, Fragmentable {
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
   count: () => Promise<Int>;
 }
 
@@ -664,7 +714,9 @@ export interface BatchPayload {
   count: Long;
 }
 
-export interface BatchPayloadPromise extends Promise<BatchPayload>, Fragmentable {
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
   count: () => Promise<Long>;
 }
 
@@ -706,7 +758,9 @@ export interface LinkPreviousValues {
   url: String;
 }
 
-export interface LinkPreviousValuesPromise extends Promise<LinkPreviousValues>, Fragmentable {
+export interface LinkPreviousValuesPromise
+  extends Promise<LinkPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
@@ -754,7 +808,9 @@ export interface UserPreviousValues {
   password: String;
 }
 
-export interface UserPreviousValuesPromise extends Promise<UserPreviousValues>, Fragmentable {
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
@@ -809,11 +865,11 @@ export type Long = string;
 
 export const models: Model[] = [
   {
-    name: 'Link',
+    name: "Link",
     embedded: false
   },
   {
-    name: 'User',
+    name: "User",
     embedded: false
   }
 ];
