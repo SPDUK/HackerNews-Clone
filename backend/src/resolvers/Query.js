@@ -1,7 +1,7 @@
 const Query = {
   info: () => `This is the API of a Hackernews Clone`,
 
-  async feed(parent, { filter, skip, first }, context, info) {
+  async feed(parent, { filter, skip, first, orderBy }, context, info) {
     // If no filter string is provided, then the where object will be just an empty object and no
     // filtering conditions will be applied by the Prisma engine when it returns the response for
     // the links query.
@@ -15,8 +15,20 @@ const Query = {
       where,
       skip,
       first,
+      orderBy,
     });
-    return links;
+
+    // using the linksConnection query from the Prisma client API to retrieve the total number of
+    // Link elements currently stored in the database.
+    // Connection queries expose aggregations https://facebook.github.io/relay/graphql/connections.htm
+    const count = await context.prisma
+      .linksConnection({
+        where,
+      })
+      .aggregate()
+      .count();
+
+    return { links, count };
   },
 };
 

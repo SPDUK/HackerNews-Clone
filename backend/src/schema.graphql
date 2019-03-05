@@ -1,6 +1,16 @@
+# represents the various ways how the list of Link elements can be sorted within feed
+enum LinkOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
 type Query {
   info: String!
-  feed(filter: String, skip: Int, first: Int): [Link!]!
+  feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
 }
 
 type Mutation {
@@ -16,6 +26,11 @@ type Link {
   url: String!
   postedBy: User
   votes: [Vote!]!
+}
+
+type Feed {
+  links: [Link!]!
+  count: Int!
 }
 
 type AuthPayload {
