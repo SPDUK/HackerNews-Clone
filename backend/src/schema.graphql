@@ -1,3 +1,4 @@
+scalar DateTime
 # represents the various ways how the list of Link elements can be sorted within feed
 enum LinkOrderByInput {
   description_ASC
@@ -22,6 +23,7 @@ type Mutation {
 
 type Link {
   id: ID!
+  createdAt: DateTime!
   description: String!
   url: String!
   postedBy: User
