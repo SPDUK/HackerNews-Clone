@@ -31,3 +31,39 @@
     transform: rotate(360deg);
   }
 }
+
+.upvote {
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 0.1rem;
+  margin: 0;
+  text-decoration: none;
+  background: none;
+  color: rgb(163, 163, 163);
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: 250ms ease-in-out, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+  color: rgb(128, 128, 128);
+}
+
+button:focus {
+  outline: 1px solid rgb(110, 110, 110);
+}
+
+button:active {
+  transform: scale(0.98);
+  transform: translateY(-2px);
+}

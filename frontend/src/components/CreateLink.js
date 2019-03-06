@@ -56,7 +56,7 @@ class CreateLink extends Component {
           onCompleted={() => history.push('/')}
         >
           {postLink => (
-            <button type="button" onClick={postLink}>
+            <button className="pointer div button" onClick={postLink}>
               Submit
             </button>
           )}
