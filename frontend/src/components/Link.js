@@ -27,6 +27,7 @@ class Link extends Component {
     const {
       index,
       link: { description, url, postedBy, votes, createdAt, id },
+      updateStoreAfterVote,
     } = this.props;
     const authToken = localStorage.getItem('auth-token');
     return (
@@ -34,7 +35,12 @@ class Link extends Component {
         <div className="flex items-center">
           <span className="gray">{index + 1}.</span>
           {authToken && (
-            <Mutation mutation={VOTE_MUTATION} variables={{ linkId: id }}>
+            <Mutation
+              mutation={VOTE_MUTATION}
+              variables={{ linkId: id }}
+              // update the cache after the current mutation finishes
+              update={(store, { data: vote }) => updateStoreAfterVote(store, vote, id)}
+            >
               {voteMutation => (
                 <button className="ml1 f11 upvote" onClick={voteMutation}>
                   ▲
@@ -62,6 +68,7 @@ Link.propTypes = {
     url: PropTypes.string.isRequired,
   }),
   index: PropTypes.number.isRequired,
+  updateStoreAfterVote: PropTypes.func.isRequired,
 };
 
 export default Link;

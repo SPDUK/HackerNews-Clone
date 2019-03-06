@@ -28,6 +28,16 @@ const FEED_QUERY = gql`
 `;
 
 class LinkList extends Component {
+  updateStoreAfterVote = (store, createVote, linkId) => {
+    const data = store.readQuery({ query: FEED_QUERY });
+    console.log(data);
+
+    const votedLink = data.feed.links.find(link => link.id === linkId);
+    votedLink.votes = createVote.vote.link.votes;
+
+    store.writeQuery({ query: FEED_QUERY, data });
+  };
+
   render() {
     return (
       <Query query={FEED_QUERY}>
@@ -38,7 +48,12 @@ class LinkList extends Component {
           return (
             <div>
               {data.feed.links.map((link, index) => (
-                <Link key={link.id} index={index} link={link} />
+                <Link
+                  key={link.id}
+                  index={index}
+                  link={link}
+                  updateStoreAfterVote={this.updateStoreAfterVote}
+                />
               ))}
             </div>
           );
@@ -49,3 +64,4 @@ class LinkList extends Component {
 }
 
 export default LinkList;
+export { FEED_QUERY };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
+import { FEED_QUERY } from './LinkList';
 
 const POST_LINK = gql`
   mutation postLink($description: String!, $url: String!) {
@@ -54,6 +55,16 @@ class CreateLink extends Component {
           mutation={POST_LINK}
           variables={{ description, url }}
           onCompleted={() => history.push('/')}
+          update={(store, { data: { post } }) => {
+            console.log(store);
+            console.log(post);
+            const data = store.readQuery({ query: FEED_QUERY });
+            data.feed.links.unshift(post);
+            store.writeQuery({
+              query: FEED_QUERY,
+              data,
+            });
+          }}
         >
           {postLink => (
             <button className="pointer div button" onClick={postLink}>
@@ -72,3 +83,4 @@ CreateLink.propTypes = {
 };
 
 export default CreateLink;
+export { FEED_QUERY };
