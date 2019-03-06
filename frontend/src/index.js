@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
-import { setContext } from 'apollo-link-context';
 import * as serviceWorker from './serviceWorker';
 
 import './styles/index.css';
