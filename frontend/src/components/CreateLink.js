@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 const POST_LINK = gql`
-  mutation POST_LINK($description: String!, $url: String!) {
+  mutation postLink($description: String!, $url: String!) {
     post(description: $description, url: $url) {
       id
       createdAt
