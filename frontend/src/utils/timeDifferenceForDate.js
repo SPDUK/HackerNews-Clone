@@ -7,26 +7,34 @@ function timeDifference(current, previous) {
 
   const elapsed = current - previous;
 
+  const pluralize = (num, word) => (num > 1 ? `${word}s` : word);
+
   if (elapsed < milliSecondsPerMinute / 3) {
     return 'just now';
   }
 
   if (elapsed < milliSecondsPerMinute) {
-    return 'less than 1 min ago';
+    return 'less than 1 minute ago';
   }
+
   if (elapsed < milliSecondsPerHour) {
-    return `${Math.round(elapsed / milliSecondsPerMinute)} min ago`;
+    const minutes = Math.round(elapsed / milliSecondsPerMinute);
+    return `${minutes} ${pluralize(minutes, 'minute')} ago`;
   }
   if (elapsed < milliSecondsPerDay) {
-    return `${Math.round(elapsed / milliSecondsPerHour)} h ago`;
+    const hours = Math.round(elapsed / milliSecondsPerHour);
+    return `${hours} ${pluralize(hours, 'hour')} ago`;
   }
   if (elapsed < milliSecondsPerMonth) {
-    return `${Math.round(elapsed / milliSecondsPerDay)} days ago`;
+    const days = Math.round(elapsed / milliSecondsPerDay);
+    return `${days} ${pluralize(days, 'day')} ago`;
   }
   if (elapsed < milliSecondsPerYear) {
-    return `${Math.round(elapsed / milliSecondsPerMonth)} mo ago`;
+    const months = Math.round(elapsed / milliSecondsPerMonth);
+    return `${months} ${pluralize(months, 'month')} ago`;
   }
-  return `${Math.round(elapsed / milliSecondsPerYear)} years ago`;
+  const years = Math.round(elapsed / milliSecondsPerYear);
+  return `${years} ${pluralize(years, 'year')} ago`;
 }
 
 export default function timeDifferenceForDate(date) {
