@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 function getUserId(context) {
+  console.log(context.request.get('Authorization'));
   const Authorization = context.request.get('Authorization');
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '');
@@ -11,6 +12,4 @@ function getUserId(context) {
   throw new Error('Not authenticated');
 }
 
-module.exports = {
-  getUserId,
-};
+module.exports = getUserId;
