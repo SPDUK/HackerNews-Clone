@@ -56,8 +56,6 @@ class CreateLink extends Component {
           variables={{ description, url }}
           onCompleted={() => history.push('/')}
           update={(store, { data: { post } }) => {
-            console.log(store);
-            console.log(post);
             const data = store.readQuery({ query: FEED_QUERY });
             data.feed.links.unshift(post);
             store.writeQuery({

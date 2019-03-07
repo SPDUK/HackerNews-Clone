@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import Footer from './Footer';
 import Link from './Link';
 
 const FEED_QUERY = gql`
@@ -30,7 +30,6 @@ const FEED_QUERY = gql`
 class LinkList extends Component {
   updateStoreAfterVote = (store, createVote, linkId) => {
     const data = store.readQuery({ query: FEED_QUERY });
-    console.log(data);
 
     const votedLink = data.feed.links.find(link => link.id === linkId);
     votedLink.votes = createVote.vote.link.votes;
@@ -40,25 +39,28 @@ class LinkList extends Component {
 
   render() {
     return (
-      <Query query={FEED_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Loading...</div>;
-          if (error) return <div>Error</div>;
+      <>
+        <Query query={FEED_QUERY}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Loading...</div>;
+            if (error) return <div>Error</div>;
 
-          return (
-            <div>
-              {data.feed.links.map((link, index) => (
-                <Link
-                  key={link.id}
-                  index={index}
-                  link={link}
-                  updateStoreAfterVote={this.updateStoreAfterVote}
-                />
-              ))}
-            </div>
-          );
-        }}
-      </Query>
+            return (
+              <div>
+                {data.feed.links.map((link, index) => (
+                  <Link
+                    key={link.id}
+                    index={index}
+                    link={link}
+                    updateStoreAfterVote={this.updateStoreAfterVote}
+                  />
+                ))}
+              </div>
+            );
+          }}
+        </Query>
+        <Footer />
+      </>
     );
   }
 }
