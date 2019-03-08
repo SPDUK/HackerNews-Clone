@@ -1,8 +1,30 @@
+.scrolled {
+  top: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.scrolled-info {
+  width: 100%;
+  position: fixed;
+  top: 62px;
+}
+
+@media screen and (min-width: 768px) {
+  .scrolled {
+    width: 85% !important;
+  }
+  .scrolled-info {
+    width: 85%;
+  }
+}
+
 .search {
   display: flex;
   justify-content: center;
   align-self: center;
   width: 100%;
+  padding: 10px 5px;
 }
 
 .search-form {
@@ -54,17 +76,14 @@
 /* reset button */
 .search-reset {
   padding-left: 10px;
-  display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 }
 .search-reset:focus {
   outline: none;
 }
 .fa-circle {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   color: rgb(199, 199, 199);
   font-size: 1.3em;
   cursor: pointer;
@@ -74,6 +93,48 @@
 }
 
 .circle-show {
-  visibility: visible;
-  opacity: 1;
+  animation: animateButtonIn 0.3s ease-in-out forwards;
+}
+.circle-hide {
+  animation: animateButtonOut 0.3s ease-in-out forwards;
+}
+@keyframes animateButtonIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    z-index: 5;
+  }
+}
+@keyframes animateButtonOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* search info bar */
+.search-info {
+  display: flex;
+  justify-content: space-between;
+  background: #fdfdfd;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 10px;
+  font-size: 0.9em;
+}
+/* search results */
+.search-results {
+  margin-top: 0px;
+}
+
+.scrolled-results {
+  margin-top: 115px;
 }
