@@ -46,7 +46,7 @@ class LinkList extends Component {
             if (error) return <div>Error</div>;
 
             return (
-              <div>
+              <div className="ph3 pv1 background-gray">
                 {data.feed.links.map((link, index) => (
                   <Link
                     key={link.id}

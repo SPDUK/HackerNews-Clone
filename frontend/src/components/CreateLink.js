@@ -32,7 +32,7 @@ class CreateLink extends Component {
     const { description, url } = this.state;
     const { history } = this.props;
     return (
-      <div>
+      <div className="ph3 pv1 background-gray">
         <div className="flex flex-column mt3">
           <input
             name="description"

@@ -49,7 +49,7 @@ class Login extends Component {
   render() {
     const { login, email, password, name } = this.state;
     return (
-      <div>
+      <div className="ph3 pv1 background-gray">
         <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
         <div className="flex flex-column">
           {!login && (
