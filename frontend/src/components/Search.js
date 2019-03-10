@@ -93,6 +93,19 @@ class Search extends Component {
     if (this.state.scrolled && window.scrollY <= 26) return this.setState({ scrolled: false });
   };
 
+  changeOrder = e => {
+    const { links } = this.state;
+    if (e.target.value === 'recent') {
+      this.setState({
+        links: links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      });
+    } else {
+      this.setState({
+        links: links.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
+      });
+    }
+  };
+
   render() {
     const { search, links, scrolled, loading, touched } = this.state;
     return (
@@ -127,11 +140,11 @@ class Search extends Component {
             <div className={`search-info ${scrolled && 'scrolled-info'}`}>
               <div className="search-info-options">
                 <span>Order By </span>
-                <select name="for" id="for">
-                  <option selected value="recent">
-                    Recent
+                <select onChange={this.changeOrder} name="order" id="order">
+                  <option value="recent">Recent</option>
+                  <option selected value="oldest">
+                    Oldest
                   </option>
-                  <option value="oldest">Oldest</option>
                 </select>
               </div>
               <div className="search-info-stats">{links.length} results</div>
