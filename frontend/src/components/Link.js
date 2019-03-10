@@ -68,7 +68,7 @@ Link.propTypes = {
     url: PropTypes.string.isRequired,
   }),
   index: PropTypes.number.isRequired,
-  updateStoreAfterVote: PropTypes.func.isRequired,
+  updateStoreAfterVote: PropTypes.func,
 };
 
 export default Link;

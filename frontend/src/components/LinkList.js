@@ -96,7 +96,7 @@ class LinkList extends Component {
       // determines how the store should be updated based on previous state
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
-        const newLink = subscriptionData.data.newLink;
+        const { newLink } = subscriptionData.data;
         const exists = prev.feed.links.find(({ id }) => id === newLink.id);
         if (exists) return prev;
 
