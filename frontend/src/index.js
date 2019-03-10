@@ -40,7 +40,7 @@ const wsLink = new WebSocketLink({
     },
   },
 });
-
+// hybrid link: https://blog.apollographql.com/apollo-link-the-modular-graphql-network-stack-3b6d5fcf9244
 const link = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);

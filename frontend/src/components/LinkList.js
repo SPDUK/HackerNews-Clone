@@ -48,6 +48,33 @@ const NEW_LINKS_SUBSCRIPTION = gql`
   }
 `;
 
+const NEW_VOTES_SUBSCRIPTION = gql`
+  subscription {
+    newVote {
+      id
+      link {
+        id
+        url
+        description
+        createdAt
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`;
+
 class LinkList extends Component {
   updateStoreAfterVote = (store, createVote, linkId) => {
     const data = store.readQuery({ query: FEED_QUERY });
@@ -60,7 +87,7 @@ class LinkList extends Component {
 
   subscribeToNewLinks = subscribeToMore => {
     subscribeToMore({
-      // fire every time a new link is created
+      // subscription query will fire every time a new link is created
       document: NEW_LINKS_SUBSCRIPTION,
       // determines how the store should be updated based on previous state
       updateQuery: (prev, { subscriptionData }) => {
@@ -80,6 +107,12 @@ class LinkList extends Component {
     });
   };
 
+  subscribeToNewVotes = subscribeToMore => {
+    subscribeToMore({
+      document: NEW_VOTES_SUBSCRIPTION,
+    });
+  };
+
   render() {
     return (
       <>
@@ -89,6 +122,7 @@ class LinkList extends Component {
             if (error) return <div>Error</div>;
 
             this.subscribeToNewLinks(subscribeToMore);
+            this.subscribeToNewVotes(subscribeToMore);
 
             return (
               <div className="ph3 pv1 background-gray">
@@ -111,4 +145,4 @@ class LinkList extends Component {
 }
 
 export default LinkList;
-export { FEED_QUERY, NEW_LINKS_SUBSCRIPTION };
+export { FEED_QUERY, NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION };
