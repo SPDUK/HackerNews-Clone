@@ -1,6 +1,4 @@
 const Query = {
-  info: () => `This is the API of a Hackernews Clone`,
-
   async feed(parent, { filter, skip, first, orderBy }, context, info) {
     // If no filter string is provided, then the where object will be just an empty object and no
     // filtering conditions will be applied by the Prisma engine when it returns the response for
