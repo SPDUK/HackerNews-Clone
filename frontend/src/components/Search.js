@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import throttle from 'lodash.throttle';
+
 import Link from './Link';
 import { LINKS_PER_PAGE } from '../constants';
 import '../styles/search.css';
 
 const FEED_SEARCH_QUERY = gql`
-  query FeedSearchQuery($filter: String!, $first: Int) {
-    feed(filter: $filter, first: $first) {
+  query FeedSearchQuery($filter: String!, $first: Int, $orderBy: LinkOrderByInput) {
+    feed(filter: $filter, first: $first, orderBy: $orderBy) {
       links {
         id
         url
@@ -36,6 +38,7 @@ class Search extends Component {
     scrolled: window.scrollY > 26,
     touched: false,
     count: 0,
+    timeTaken: 0,
   };
 
   componentDidMount() {
@@ -47,6 +50,31 @@ class Search extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
+  executeSearch = async () => {
+    this.setState({ loading: true });
+    const startTime = new Date().getTime();
+    // only prevent default if using the form submission
+
+    const { search } = this.state;
+    const result = await this.props.client.query({
+      query: FEED_SEARCH_QUERY,
+      variables: { filter: search, first: LINKS_PER_PAGE, orderBy: 'createdAt_DESC' },
+    });
+    const { links, count } = result.data.feed;
+
+    this.setState({
+      links: this._sortLinksByRecent(links),
+      count,
+      loading: false,
+      timeTaken: new Date().getTime() - startTime,
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    throttle(this.executeSearch, 1000);
+  };
+
   _sortLinksByRecent = links => links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   _sortLinksByOldest = links => links.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -57,37 +85,33 @@ class Search extends Component {
     const { name, value } = e.target;
     const { touched } = this.state;
     if (touched) {
-      this.setState({
-        [name]: value,
-      });
+      this.setState(
+        {
+          [name]: value,
+        },
+        () => setTimeout(this.executeSearch, 500)
+      );
     } else {
-      this.setState({
-        [name]: value,
-        touched: true,
-      });
+      this.setState(
+        {
+          [name]: value,
+          touched: true,
+        },
+        () => setTimeout(this.executeSearch, 500)
+      );
     }
   };
 
-  executeSearch = async e => {
-    this.setState({ loading: true });
-    // only prevent default if using the form submission
-    if (e) e.preventDefault();
-
-    const { search } = this.state;
-    const result = await this.props.client.query({
-      query: FEED_SEARCH_QUERY,
-      variables: { filter: search, first: LINKS_PER_PAGE },
-    });
-    const { links, count } = result.data.feed;
-
-    this.setState({ links: this._sortLinksByVotes(links), count, loading: false });
-  };
-
   resetSearch = () => {
-    this.setState({
-      search: '',
-      links: [],
-    });
+    this.setState(
+      {
+        search: '',
+        links: [],
+        count: 0,
+        timeTaken: 0,
+      },
+      this.executeSearch
+    );
   };
 
   handleScroll = () => {
@@ -120,11 +144,11 @@ class Search extends Component {
   };
 
   render() {
-    const { search, links, scrolled, loading, touched, count } = this.state;
+    const { search, links, scrolled, loading, touched, count, timeTaken } = this.state;
     return (
       <>
         <div className={`search orange ${scrolled && 'scrolled'}`}>
-          <form className="search-form" onSubmit={this.executeSearch}>
+          <form className="search-form" onSubmit={this.handleSubmit}>
             <i className="fas fa-search" />
             <input
               placeholder="Search by title, url or author"
@@ -154,16 +178,16 @@ class Search extends Component {
               <div className="search-info-options">
                 <span>Order By </span>
                 <select onChange={this.changeOrder} name="order" id="order">
-                  <option defaultValue value="votes">
-                    Votes
+                  <option defaultValue value="recent">
+                    Recent
                   </option>
-                  <option value="recent">Recent</option>
+                  <option value="votes">Votes</option>
                   <option value="oldest">Oldest</option>
                 </select>
               </div>
               <div className="search-info-stats">
                 {links.length >= count ? links.length : `${links.length} out of ${count} total`}{' '}
-                results
+                results {timeTaken} ms
               </div>
             </div>
             <div
