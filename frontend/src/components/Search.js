@@ -15,6 +15,7 @@ const FEED_SEARCH_QUERY = gql`
         url
         description
         createdAt
+        voteCount
         postedBy {
           id
           name
@@ -39,6 +40,7 @@ class Search extends Component {
     touched: false,
     count: 0,
     timeTaken: 0,
+    orderBy: 'voteCount_ASC',
   };
 
   componentDidMount() {
@@ -55,15 +57,15 @@ class Search extends Component {
     const startTime = new Date().getTime();
     // only prevent default if using the form submission
 
-    const { search } = this.state;
+    const { search, orderBy } = this.state;
     const result = await this.props.client.query({
       query: FEED_SEARCH_QUERY,
-      variables: { filter: search, first: LINKS_PER_PAGE, orderBy: 'createdAt_DESC' },
+      variables: { filter: search, first: LINKS_PER_PAGE, orderBy },
     });
     const { links, count } = result.data.feed;
 
     this.setState({
-      links: this._sortLinksByRecent(links),
+      links,
       count,
       loading: false,
       timeTaken: new Date().getTime() - startTime,
@@ -126,18 +128,21 @@ class Search extends Component {
       case 'recent':
         this.setState({
           links: this._sortLinksByRecent(links),
+          orderBy: 'createdAt_ASC',
         });
         break;
 
       case 'oldest':
         this.setState({
           links: this._sortLinksByOldest(links),
+          orderBy: 'createdAt_DESC',
         });
         break;
 
       default:
         this.setState({
           links: this._sortLinksByVotes(links),
+          orderBy: 'voteCount_DESC',
         });
         break;
     }

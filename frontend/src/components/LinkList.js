@@ -15,6 +15,7 @@ const FEED_QUERY = gql`
         createdAt
         url
         description
+        voteCount
         postedBy {
           id
           name
@@ -150,7 +151,7 @@ class LinkList extends Component {
 
     const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0;
     const first = isNewPage ? LINKS_PER_PAGE : 100;
-    const orderBy = isNewPage ? 'createdAt_DESC' : null;
+    const orderBy = isNewPage ? 'createdAt_DESC' : 'voteCount_DESC';
     return { first, skip, orderBy };
   };
 

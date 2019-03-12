@@ -45,3 +45,7 @@ button:active {
   cursor: pointer;
   padding-bottom: 3px;
 }
+
+.form {
+  max-width: 500px;
+}

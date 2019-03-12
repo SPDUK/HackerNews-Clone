@@ -195,6 +195,8 @@ export type LinkOrderByInput =
   | "description_DESC"
   | "url_ASC"
   | "url_DESC"
+  | "voteCount_ASC"
+  | "voteCount_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -281,6 +283,14 @@ export interface LinkWhereInput {
   votes_every?: VoteWhereInput;
   votes_some?: VoteWhereInput;
   votes_none?: VoteWhereInput;
+  voteCount?: Int;
+  voteCount_not?: Int;
+  voteCount_in?: Int[] | Int;
+  voteCount_not_in?: Int[] | Int;
+  voteCount_lt?: Int;
+  voteCount_lte?: Int;
+  voteCount_gt?: Int;
+  voteCount_gte?: Int;
   AND?: LinkWhereInput[] | LinkWhereInput;
   OR?: LinkWhereInput[] | LinkWhereInput;
   NOT?: LinkWhereInput[] | LinkWhereInput;
@@ -390,6 +400,7 @@ export interface LinkCreateInput {
   url: String;
   postedBy?: UserCreateOneWithoutLinksInput;
   votes?: VoteCreateManyWithoutLinkInput;
+  voteCount?: Int;
 }
 
 export interface UserCreateOneWithoutLinksInput {
@@ -422,6 +433,7 @@ export interface LinkCreateWithoutVotesInput {
   description: String;
   url: String;
   postedBy?: UserCreateOneWithoutLinksInput;
+  voteCount?: Int;
 }
 
 export interface VoteCreateManyWithoutLinkInput {
@@ -454,6 +466,7 @@ export interface LinkCreateWithoutPostedByInput {
   description: String;
   url: String;
   votes?: VoteCreateManyWithoutLinkInput;
+  voteCount?: Int;
 }
 
 export interface LinkUpdateInput {
@@ -461,6 +474,7 @@ export interface LinkUpdateInput {
   url?: String;
   postedBy?: UserUpdateOneWithoutLinksInput;
   votes?: VoteUpdateManyWithoutLinkInput;
+  voteCount?: Int;
 }
 
 export interface UserUpdateOneWithoutLinksInput {
@@ -514,6 +528,7 @@ export interface LinkUpdateWithoutVotesDataInput {
   description?: String;
   url?: String;
   postedBy?: UserUpdateOneWithoutLinksInput;
+  voteCount?: Int;
 }
 
 export interface LinkUpsertWithoutVotesInput {
@@ -617,6 +632,7 @@ export interface LinkUpdateWithoutPostedByDataInput {
   description?: String;
   url?: String;
   votes?: VoteUpdateManyWithoutLinkInput;
+  voteCount?: Int;
 }
 
 export interface LinkUpsertWithWhereUniqueWithoutPostedByInput {
@@ -676,6 +692,14 @@ export interface LinkScalarWhereInput {
   url_not_starts_with?: String;
   url_ends_with?: String;
   url_not_ends_with?: String;
+  voteCount?: Int;
+  voteCount_not?: Int;
+  voteCount_in?: Int[] | Int;
+  voteCount_not_in?: Int[] | Int;
+  voteCount_lt?: Int;
+  voteCount_lte?: Int;
+  voteCount_gt?: Int;
+  voteCount_gte?: Int;
   AND?: LinkScalarWhereInput[] | LinkScalarWhereInput;
   OR?: LinkScalarWhereInput[] | LinkScalarWhereInput;
   NOT?: LinkScalarWhereInput[] | LinkScalarWhereInput;
@@ -689,6 +713,7 @@ export interface LinkUpdateManyWithWhereNestedInput {
 export interface LinkUpdateManyDataInput {
   description?: String;
   url?: String;
+  voteCount?: Int;
 }
 
 export interface UserUpsertWithoutVotesInput {
@@ -705,6 +730,7 @@ export interface VoteUpsertWithWhereUniqueWithoutLinkInput {
 export interface LinkUpdateManyMutationInput {
   description?: String;
   url?: String;
+  voteCount?: Int;
 }
 
 export interface UserCreateInput {
@@ -781,6 +807,7 @@ export interface Link {
   createdAt: DateTimeOutput;
   description: String;
   url: String;
+  voteCount?: Int;
 }
 
 export interface LinkPromise extends Promise<Link>, Fragmentable {
@@ -800,6 +827,7 @@ export interface LinkPromise extends Promise<Link>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  voteCount: () => Promise<Int>;
 }
 
 export interface LinkSubscription
@@ -821,6 +849,7 @@ export interface LinkSubscription
       last?: Int;
     }
   ) => T;
+  voteCount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface User {
@@ -1139,6 +1168,7 @@ export interface LinkPreviousValues {
   createdAt: DateTimeOutput;
   description: String;
   url: String;
+  voteCount?: Int;
 }
 
 export interface LinkPreviousValuesPromise
@@ -1148,6 +1178,7 @@ export interface LinkPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
   url: () => Promise<String>;
+  voteCount: () => Promise<Int>;
 }
 
 export interface LinkPreviousValuesSubscription
@@ -1157,6 +1188,7 @@ export interface LinkPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
+  voteCount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserSubscriptionPayload {

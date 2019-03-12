@@ -28,6 +28,7 @@ type Link {
   url: String!
   postedBy: User
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+  voteCount: Int
 }
 
 type LinkConnection {
@@ -41,6 +42,7 @@ input LinkCreateInput {
   url: String!
   postedBy: UserCreateOneWithoutLinksInput
   votes: VoteCreateManyWithoutLinkInput
+  voteCount: Int
 }
 
 input LinkCreateManyWithoutPostedByInput {
@@ -57,12 +59,14 @@ input LinkCreateWithoutPostedByInput {
   description: String!
   url: String!
   votes: VoteCreateManyWithoutLinkInput
+  voteCount: Int
 }
 
 input LinkCreateWithoutVotesInput {
   description: String!
   url: String!
   postedBy: UserCreateOneWithoutLinksInput
+  voteCount: Int
 }
 
 type LinkEdge {
@@ -79,6 +83,8 @@ enum LinkOrderByInput {
   description_DESC
   url_ASC
   url_DESC
+  voteCount_ASC
+  voteCount_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -88,6 +94,7 @@ type LinkPreviousValues {
   createdAt: DateTime!
   description: String!
   url: String!
+  voteCount: Int
 }
 
 input LinkScalarWhereInput {
@@ -141,6 +148,14 @@ input LinkScalarWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  voteCount: Int
+  voteCount_not: Int
+  voteCount_in: [Int!]
+  voteCount_not_in: [Int!]
+  voteCount_lt: Int
+  voteCount_lte: Int
+  voteCount_gt: Int
+  voteCount_gte: Int
   AND: [LinkScalarWhereInput!]
   OR: [LinkScalarWhereInput!]
   NOT: [LinkScalarWhereInput!]
@@ -169,16 +184,19 @@ input LinkUpdateInput {
   url: String
   postedBy: UserUpdateOneWithoutLinksInput
   votes: VoteUpdateManyWithoutLinkInput
+  voteCount: Int
 }
 
 input LinkUpdateManyDataInput {
   description: String
   url: String
+  voteCount: Int
 }
 
 input LinkUpdateManyMutationInput {
   description: String
   url: String
+  voteCount: Int
 }
 
 input LinkUpdateManyWithoutPostedByInput {
@@ -209,12 +227,14 @@ input LinkUpdateWithoutPostedByDataInput {
   description: String
   url: String
   votes: VoteUpdateManyWithoutLinkInput
+  voteCount: Int
 }
 
 input LinkUpdateWithoutVotesDataInput {
   description: String
   url: String
   postedBy: UserUpdateOneWithoutLinksInput
+  voteCount: Int
 }
 
 input LinkUpdateWithWhereUniqueWithoutPostedByInput {
@@ -288,6 +308,14 @@ input LinkWhereInput {
   votes_every: VoteWhereInput
   votes_some: VoteWhereInput
   votes_none: VoteWhereInput
+  voteCount: Int
+  voteCount_not: Int
+  voteCount_in: [Int!]
+  voteCount_not_in: [Int!]
+  voteCount_lt: Int
+  voteCount_lte: Int
+  voteCount_gt: Int
+  voteCount_gte: Int
   AND: [LinkWhereInput!]
   OR: [LinkWhereInput!]
   NOT: [LinkWhereInput!]
