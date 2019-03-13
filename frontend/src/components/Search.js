@@ -156,7 +156,7 @@ class Search extends Component {
           <form className="search-form" onSubmit={this.handleSubmit}>
             <i className="fas fa-search" />
             <input
-              placeholder="Search by title, url or author"
+              placeholder="Search by URL or description"
               value={search}
               className="search-input"
               name="search"
@@ -192,7 +192,7 @@ class Search extends Component {
               </div>
               <div className="search-info-stats">
                 {links.length >= count ? links.length : `${links.length} out of ${count} total`}{' '}
-                results {timeTaken} ms
+                results | {timeTaken} ms
               </div>
             </div>
             <div
