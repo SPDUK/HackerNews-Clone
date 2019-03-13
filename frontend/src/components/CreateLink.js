@@ -20,6 +20,7 @@ class CreateLink extends Component {
   state = {
     description: '',
     url: '',
+    errors: '',
   };
 
   handleChange = e => {
@@ -29,29 +30,41 @@ class CreateLink extends Component {
     });
   };
 
-  render() {
+  showErrors = (...args) => <div className="red">{args}</div>;
+
+  onSubmit = fn => {
     const { description, url } = this.state;
+    if (description.length < 5) {
+      return this.setState({
+        errors: 'Description too short!, must be 5 characters minimum',
+      });
+    }
+    if (url.length < 5) {
+      return this.setState({
+        errors: 'URL too short!, must be 5 characters minimum',
+      });
+    }
+    this.setState({ errors: '' });
+
+    let tempURL = url.slice();
+    if (!url.startsWith('http://') || !url.startsWith('https://')) {
+      tempURL = `https://${tempURL}`;
+    }
+
+    this.setState(
+      {
+        url: tempURL,
+        description,
+      },
+      () => fn()
+    );
+  };
+
+  render() {
+    const { description, url, errors } = this.state;
     const { history } = this.props;
     return (
       <div className="ph3 pv1 background-gray">
-        <div className="flex flex-column mt3">
-          <input
-            name="description"
-            className="mb2"
-            value={description}
-            onChange={this.handleChange}
-            type="text"
-            placeholder="A description for the link"
-          />
-          <input
-            name="url"
-            className="mb2"
-            value={url}
-            onChange={this.handleChange}
-            type="text"
-            placeholder="The URL for the link"
-          />
-        </div>
         <Mutation
           mutation={POST_LINK}
           variables={{ description, url }}
@@ -72,10 +85,37 @@ class CreateLink extends Component {
             });
           }}
         >
-          {postLink => (
-            <button className="pointer div button" onClick={postLink}>
-              Submit
-            </button>
+          {(postLink, { error, loading }) => (
+            <form onSubmit={() => this.onSubmit(postLink)} className="form flex flex-column mt3">
+              {this.showErrors(error, errors)}
+              <input
+                name="url"
+                className="mb2"
+                value={url}
+                onChange={this.handleChange}
+                type="text"
+                placeholder="The URL for the link"
+                minLength="5"
+                required
+              />
+              <input
+                name="description"
+                className="mb2"
+                value={description}
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Description"
+                required
+                minLength="5"
+              />
+              <button
+                disabled={loading}
+                className="pointer div button"
+                onClick={() => this.onSubmit(postLink)}
+              >
+                Submit
+              </button>
+            </form>
           )}
         </Mutation>
       </div>
