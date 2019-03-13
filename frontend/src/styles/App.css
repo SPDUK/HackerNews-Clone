@@ -49,3 +49,9 @@ button:active {
 .form {
   max-width: 500px;
 }
+
+a,
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}

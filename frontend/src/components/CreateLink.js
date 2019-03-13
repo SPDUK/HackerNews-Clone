@@ -47,7 +47,7 @@ class CreateLink extends Component {
     this.setState({ errors: '' });
 
     let tempURL = url.slice();
-    if (!url.startsWith('http://') || !url.startsWith('https://')) {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
       tempURL = `https://${tempURL}`;
     }
 

@@ -183,10 +183,10 @@ class Search extends Component {
               <div className="search-info-options">
                 <span>Order By </span>
                 <select onChange={this.changeOrder} name="order" id="order">
-                  <option defaultValue value="recent">
-                    Recent
+                  <option defaultValue value="votes">
+                    Votes
                   </option>
-                  <option value="votes">Votes</option>
+                  <option value="recent">Recent</option>
                   <option value="oldest">Oldest</option>
                 </select>
               </div>
@@ -199,7 +199,7 @@ class Search extends Component {
               className={`search-results ph3 pv1 background-gray ${scrolled && 'scrolled-results'}`}
             >
               {links.map((link, index) => (
-                <Link key={link.id} link={link} index={index} />
+                <Link key={link.id} link={link} index={index} upvoteable={false} />
               ))}
             </div>
           </>

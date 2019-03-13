@@ -65,15 +65,17 @@ const Mutations = {
       throw new Error(`Already voted for link: ${args.linkId}`);
     }
 
-    await context.prisma.createVote({
-      user: { connect: { id: userId } },
-      link: { connect: { id: args.linkId } },
+    // no idea why this breaks with async await but works with a promise.
+    context.prisma.link({ id: args.linkId }).then(link => {
+      context.prisma.updateLink({
+        data: { voteCount: link.voteCount + 1 || 1 },
+        where: { id: link.linkId },
+      });
     });
 
-    const currentLink = await context.prisma.link({ id: args.linkId });
-    return context.prisma.updateLink({
-      data: { voteCount: currentLink.voteCount + 1 || 1 },
-      where: { id: args.linkId },
+    return context.prisma.createVote({
+      user: { connect: { id: userId } },
+      link: { connect: { id: args.linkId } },
     });
   },
 };

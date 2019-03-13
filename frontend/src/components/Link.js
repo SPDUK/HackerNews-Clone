@@ -28,13 +28,14 @@ class Link extends Component {
       index,
       link: { description, url, postedBy, votes, createdAt, id },
       updateStoreAfterVote,
+      upvoteable,
     } = this.props;
     const authToken = localStorage.getItem('auth-token');
     return (
       <div className="flex mt2 items-start">
         <div className="flex items-center">
           <span className="gray">{index + 1}.</span>
-          {authToken && (
+          {authToken && upvoteable && (
             <Mutation
               mutation={VOTE_MUTATION}
               variables={{ linkId: id }}
@@ -50,9 +51,11 @@ class Link extends Component {
           )}
         </div>
         <div className="ml1">
-          <div>
-            {description} ({url})
-          </div>
+          <a href={url}>
+            <div>
+              {description} ({url})
+            </div>
+          </a>
           <div className="f6 lh-copy gray">
             {votes.length} votes | by {postedBy ? postedBy.name : 'Unknown'}{' '}
             {timeDifferenceForDate(createdAt)}
@@ -69,6 +72,7 @@ Link.propTypes = {
   }),
   index: PropTypes.number.isRequired,
   updateStoreAfterVote: PropTypes.func,
+  upvoteable: PropTypes.bool.isRequired,
 };
 
 export default Link;

@@ -82,12 +82,17 @@ const NEW_VOTES_SUBSCRIPTION = gql`
 
 class LinkList extends Component {
   updateStoreAfterVote = (store, createVote, linkId) => {
-    const data = store.readQuery({ query: FEED_QUERY });
+    try {
+      const data = store.readQuery({ query: FEED_QUERY });
 
-    const votedLink = data.feed.links.find(link => link.id === linkId);
-    votedLink.votes = createVote.vote.link.votes;
+      const votedLink = data.feed.links.find(link => link.id === linkId);
+      votedLink.votes = createVote.vote.link.votes;
 
-    store.writeQuery({ query: FEED_QUERY, data });
+      store.writeQuery({ query: FEED_QUERY, data });
+    } catch (err) {
+      // for some reason this can sometimes throw an error even if it works?
+      return err;
+    }
   };
 
   subscribeToNewLinks = subscribeToMore => {
@@ -179,6 +184,7 @@ class LinkList extends Component {
                     index={index + pageIndex}
                     link={link}
                     updateStoreAfterVote={this.updateStoreAfterVote}
+                    upvoteable
                   />
                 ))}
                 {isNewPage && (
