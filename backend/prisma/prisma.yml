@@ -1,5 +1,7 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://hackernews-spduk-cebf440421.herokuapp.com/hn-clone-prod/prod
 datamodel: datamodel.prisma
+secret: ${env:PRISMA_SECRET}
 
 # Specifies language & location for the generated Prisma client
 generate:
