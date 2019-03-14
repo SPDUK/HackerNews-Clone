@@ -58,7 +58,7 @@ jspm_packages/
 .env
 .env.test
 variables.env
-
+production.env
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

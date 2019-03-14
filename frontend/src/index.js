@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter } from 'react-router-dom';
 import { setContext } from 'apollo-link-context';
@@ -16,9 +15,11 @@ import { getMainDefinition } from 'apollo-utilities';
 import { WebSocketLink } from 'apollo-link-ws';
 import * as serviceWorker from './serviceWorker';
 import App from './components/App';
+import './styles/index.css';
+import { FRONTEND_URL } from './constants';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4444',
+  uri: process.env.NODE_ENV === 'development' ? 'http://localhost:4444' : FRONTEND_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
