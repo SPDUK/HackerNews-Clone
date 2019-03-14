@@ -16,7 +16,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import * as serviceWorker from './serviceWorker';
 import App from './components/App';
 import './styles/index.css';
-import { FRONTEND_URL } from './constants';
+import { FRONTEND_URL, FRONTEND_WS_URL } from './constants';
 
 const httpLink = createHttpLink({
   uri: process.env.NODE_ENV === 'development' ? 'http://localhost:4444' : FRONTEND_URL,
@@ -33,7 +33,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4444`,
+  uri: process.env.NODE_END === 'development' ? FRONTEND_WS_URL : `ws://localhost:4444`,
   options: {
     reconnect: true,
     connectionParams: {
