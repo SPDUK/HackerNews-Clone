@@ -1,8 +1,28 @@
 # HackerNews-Clone
 
-## Deploying
+https://hackernews-clone-spduk.netlify.com
+
+_Might load slowly as it's using free tiers for all hosting_
+
+A clone of hacker-news using React and GraphQL, includes search, caching, pagination, websockets and live updates.
+
+A little different from the actual website because they use some third party search, so I just emulated it a little.
 
 #
+
+## Installation and running the dev server
+
+[Read backend/README to setup backend](backend/README)
+
+For frontend, run `yarn` and run `yarn start` to start the server.
+
+To make eslint work:
+
+`yarn add eslint-config-airbnb eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-node eslint-plugin-prettier eslint-plugin-promise eslint-plugin-react eslint-plugin-standard prettier --dev`
+
+#
+
+## Deploying
 
 ### Prisma:
 
@@ -38,3 +58,9 @@ change the info in `variables.env` to production variables, or create `productio
 install the now CLI `npm i now -g`
 
 Go into `/backend` and simply run `now --dotenv=variables.env`.
+
+#
+
+### Frontend:
+
+Deploy through github directly using netlify, using the `netlify.toml` file to configure it. Currently it just points at the `frontend` folder using this repo.
