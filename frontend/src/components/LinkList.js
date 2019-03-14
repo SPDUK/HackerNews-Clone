@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import Footer from './Footer';
 import Link from './Link';
-
+import Skeleton from './Skeleton';
 import { LINKS_PER_PAGE } from '../constants';
 
 const FEED_QUERY = gql`
@@ -166,7 +166,7 @@ class LinkList extends Component {
       <>
         <Query query={FEED_QUERY} variables={this.getQueryVariables()}>
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <div>Loading...</div>;
+            if (loading) return <Skeleton />;
             if (error) return <div>Error</div>;
 
             this.subscribeToNewLinks(subscribeToMore);

@@ -65,3 +65,67 @@ a:visited {
     max-width: 75vw;
   }
 }
+
+.skeleton {
+  height: 90vh;
+}
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.skeleton-title {
+  height: 15px;
+  background: linear-gradient(24deg, #cfcfcf, #818181);
+  background-size: 400% 400%;
+
+  -webkit-animation: Loading 0.5s infinite;
+  -moz-animation: Loading 0.5s infinite;
+  animation: Loading 0.5s infinite;
+}
+.skeleton-info {
+  margin-top: 5px;
+  height: 10px;
+  background: linear-gradient(24deg, #f7f7f7, #a7a7a7);
+  background-size: 400% 400%;
+  -webkit-animation: Loading 0.5s infinite;
+  -moz-animation: Loading 0.5s infinite;
+  animation: Loading 0.5s infinite;
+}
+
+@-webkit-keyframes Loading {
+  0% {
+    background-position: 30% 0%;
+  }
+  50% {
+    background-position: 71% 100%;
+  }
+  100% {
+    background-position: 30% 0%;
+  }
+}
+@-moz-keyframes Loading {
+  0% {
+    background-position: 30% 0%;
+  }
+  50% {
+    background-position: 71% 100%;
+  }
+  100% {
+    background-position: 30% 0%;
+  }
+}
+@keyframes Loading {
+  0% {
+    background-position: 30% 0%;
+  }
+  50% {
+    background-position: 71% 100%;
+  }
+  100% {
+    background-position: 30% 0%;
+  }
+}

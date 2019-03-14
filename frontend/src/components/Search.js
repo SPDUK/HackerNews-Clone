@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import throttle from 'lodash.throttle';
 
 import Link from './Link';
+import Skeleton from './Skeleton';
 import { LINKS_PER_PAGE } from '../constants';
 import '../styles/search.css';
 
@@ -41,6 +42,7 @@ class Search extends Component {
     count: 0,
     timeTaken: 0,
     orderBy: 'voteCount_ASC',
+    initialLoad: true,
   };
 
   componentDidMount() {
@@ -75,6 +77,7 @@ class Search extends Component {
       count,
       loading: false,
       timeTaken: new Date().getTime() - startTime,
+      initialLoad: false,
     });
   };
 
@@ -123,8 +126,10 @@ class Search extends Component {
   };
 
   handleScroll = () => {
+    const { scrolled, loading } = this.state;
+    if (loading) return; // don't apply scrolling animation if loading
     if (window.scrollY > 26) return this.setState({ scrolled: true });
-    if (this.state.scrolled && window.scrollY <= 26) return this.setState({ scrolled: false });
+    if (scrolled && window.scrollY <= 26) return this.setState({ scrolled: false });
   };
 
   changeOrder = e => {
@@ -155,7 +160,7 @@ class Search extends Component {
   };
 
   render() {
-    const { search, links, scrolled, loading, touched, count, timeTaken } = this.state;
+    const { search, links, scrolled, loading, touched, count, timeTaken, initialLoad } = this.state;
     return (
       <>
         <div className={`search orange ${scrolled && 'scrolled'}`}>
@@ -181,38 +186,36 @@ class Search extends Component {
             </button>
           </form>
         </div>
-        {loading && !links ? (
-          <div>Loading...</div>
+        <div className={`search-info ${scrolled && 'scrolled-info'}`}>
+          <div className="search-info-options">
+            <span>Order By </span>
+            <select onChange={this.changeOrder} name="order" id="order">
+              <option defaultValue value="votes">
+                Votes
+              </option>
+              <option value="recent">Recent</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div className="search-info-stats">
+            {links.length >= count ? links.length : `${links.length} out of ${count} total`} results
+            | {timeTaken} ms
+          </div>
+        </div>
+        {loading && initialLoad ? (
+          <Skeleton />
         ) : (
-          <>
-            <div className={`search-info ${scrolled && 'scrolled-info'}`}>
-              <div className="search-info-options">
-                <span>Order By </span>
-                <select onChange={this.changeOrder} name="order" id="order">
-                  <option defaultValue value="votes">
-                    Votes
-                  </option>
-                  <option value="recent">Recent</option>
-                  <option value="oldest">Oldest</option>
-                </select>
-              </div>
-              <div className="search-info-stats">
-                {links.length >= count ? links.length : `${links.length} out of ${count} total`}{' '}
-                results | {timeTaken} ms
-              </div>
-            </div>
-            <div
-              className={`search-results ph3 pv1 background-gray ${scrolled && 'scrolled-results'}`}
-            >
-              {!links.length ? (
-                <div>No results found for {search}</div>
-              ) : (
-                links.map((link, index) => (
-                  <Link key={link.id} link={link} index={index} upvoteable={false} />
-                ))
-              )}
-            </div>
-          </>
+          <div
+            className={`search-results ph3 pv1 background-gray ${scrolled && 'scrolled-results'}`}
+          >
+            {!links.length ? (
+              <div>No results found for {search}</div>
+            ) : (
+              links.map((link, index) => (
+                <Link key={link.id} link={link} index={index} upvoteable={false} />
+              ))
+            )}
+          </div>
         )}
       </>
     );
