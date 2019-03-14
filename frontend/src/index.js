@@ -33,7 +33,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: process.env.NODE_END === 'development' ? FRONTEND_WS_URL : `ws://localhost:4444`,
+  uri: process.env.NODE_ENV === 'development' ? `ws://localhost:4444` : FRONTEND_WS_URL,
   options: {
     reconnect: true,
     connectionParams: {
