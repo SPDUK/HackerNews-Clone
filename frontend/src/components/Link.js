@@ -52,7 +52,7 @@ class Link extends Component {
         </div>
         <div className="ml1">
           <a href={url}>
-            <div>
+            <div className="link">
               {description} ({url})
             </div>
           </a>

@@ -99,6 +99,7 @@ class CreateLink extends Component {
                 type="text"
                 placeholder="The URL for the link"
                 minLength="5"
+                maxLength="120"
                 required
               />
               <input
@@ -110,6 +111,7 @@ class CreateLink extends Component {
                 placeholder="Description"
                 required
                 minLength="5"
+                maxLength="120"
               />
               <button
                 disabled={loading}

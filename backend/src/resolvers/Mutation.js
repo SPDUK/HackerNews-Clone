@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const getUserId = require('../utils/getUserId');
 const validateUser = require('../utils/validateUser');
+const validateLink = require('../utils/validateLink');
 
 const Mutations = {
   async signup(parent, args, context, info) {
@@ -43,7 +44,8 @@ const Mutations = {
       user,
     };
   },
-  post(parent, { url, description }, context, info) {
+  post(parent, args, context, info) {
+    const { url, description } = validateLink(args.url, args.description);
     const userId = getUserId(context);
     return context.prisma.createLink({
       url,
