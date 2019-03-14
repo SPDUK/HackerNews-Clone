@@ -34,7 +34,7 @@ class Header extends Component {
             </div>
           )}
         </div>
-        <div className="flex flex-fixed">
+        <div className="flex flex-fixed black">
           {authToken ? (
             <div
               role="button"

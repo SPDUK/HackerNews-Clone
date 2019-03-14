@@ -56,7 +56,7 @@ class Login extends Component {
           variables={{ email, password, name }}
           onCompleted={data => this.confirm(data)}
         >
-          {mutation => (
+          {(mutation, { error, loading }) => (
             <form
               onSubmit={e => {
                 e.preventDefault();
@@ -64,6 +64,7 @@ class Login extends Component {
               }}
               className="form flex flex-column"
             >
+              {error && <div className="red">{error.message.split(':')[1]}</div>}
               {!login && (
                 <input
                   name="name"
@@ -88,7 +89,7 @@ class Login extends Component {
                 placeholder="Choose a safe password"
               />
               <div className="flex mt3">
-                <button className="pointer mr2 button" onClick={mutation}>
+                <button disabled={loading} className="pointer mr2 button" onClick={mutation}>
                   {login ? 'login' : 'create account'}
                 </button>
                 <div className="pointer button" onClick={this.toggleLogin}>

@@ -30,7 +30,10 @@ class CreateLink extends Component {
     });
   };
 
-  showErrors = (...args) => <div className="red">{args}</div>;
+  showErrors = (gqlError, stateError) => {
+    if (gqlError) return <div className="red">{gqlError.message.split(':')[1]} </div>;
+    return <div className="red">{stateError}</div>;
+  };
 
   onSubmit = fn => {
     const { description, url } = this.state;
