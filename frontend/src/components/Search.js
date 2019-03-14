@@ -53,16 +53,22 @@ class Search extends Component {
   }
 
   executeSearch = async () => {
+    const footerSearch = localStorage.getItem('search');
+
     this.setState({ loading: true });
-    const startTime = new Date().getTime();
-    // only prevent default if using the form submission
 
     const { search, orderBy } = this.state;
+    const startTime = new Date().getTime();
+
     const result = await this.props.client.query({
       query: FEED_SEARCH_QUERY,
-      variables: { filter: search, first: LINKS_PER_PAGE, orderBy },
+      variables: { filter: footerSearch || search, first: LINKS_PER_PAGE, orderBy },
     });
     const { links, count } = result.data.feed;
+
+    // set the value in the search field to the footerSearch if it exists
+    if (footerSearch) this.setState({ search: footerSearch });
+    localStorage.removeItem('search');
 
     this.setState({
       links,
@@ -198,9 +204,13 @@ class Search extends Component {
             <div
               className={`search-results ph3 pv1 background-gray ${scrolled && 'scrolled-results'}`}
             >
-              {links.map((link, index) => (
-                <Link key={link.id} link={link} index={index} upvoteable={false} />
-              ))}
+              {!links.length ? (
+                <div>No results found for {search}</div>
+              ) : (
+                links.map((link, index) => (
+                  <Link key={link.id} link={link} index={index} upvoteable={false} />
+                ))
+              )}
             </div>
           </>
         )}

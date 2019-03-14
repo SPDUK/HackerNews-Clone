@@ -188,7 +188,7 @@ class LinkList extends Component {
                   />
                 ))}
                 {isNewPage && (
-                  <div className="flex ml4 mv3 gray">
+                  <div className="flex ml4 mv3 gray underline">
                     {match.params.page > 1 && (
                       <div className="pointer mr2" onClick={this.previousPage}>
                         Previous
